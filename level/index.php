@@ -3,7 +3,7 @@ require_once '../core/init.php';
 require_once '../core/functions.php';
 checkLog();
 
-$admin = $model->get("SELECT * FROM admin INNER JOIN level ON admin.id_level = level.id_level");
+$level = $model->get("SELECT * FROM level");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,7 @@ $admin = $model->get("SELECT * FROM admin INNER JOIN level ON admin.id_level = l
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PPOB Listrik | Admin</title>
+    <title>PPOB Listrik | Level</title>
     <!-- icon -->
     <link rel="icon" href="../public/images/logo.png">
     <!-- css -->
@@ -27,29 +27,22 @@ $admin = $model->get("SELECT * FROM admin INNER JOIN level ON admin.id_level = l
     ?>
 
     <div class="container">
-        <h2>Admin</h2>
-        <p class="text-muted">Daftar data admin</p>
-        <a href="./add.php" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Tambah Data</a>
+        <h2>Level</h2>
+        <p class="text-muted">Daftar data level</p>
         <div class="table-responsive mt-3">
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Nama</th>
-                        <th>Username</th>
-                        <th>Level</th>
-                        <th>Aksi</th>
+                        <th>No</th>
+                        <th>Nama Level</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($admin as $admin) : ?>
+                    <?php $i = 1; ?>
+                    <?php foreach ($level as $level) : ?>
                         <tr>
-                            <td><?= $admin->nama_admin; ?></td>
-                            <td><?= $admin->username; ?></td>
-                            <td><?= $admin->nama_level; ?></td>
-                            <td>
-                                <a href="./edit.php?id=<?= $admin->id_admin; ?>" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a>
-                                <a href="./delete.php?id=<?= $admin->id_admin; ?>" onclick="return confirm('Yakin untuk hapus data ini?')" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
-                            </td>
+                            <td><?= $i++; ?></td>
+                            <td><?= $level->nama_level; ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>

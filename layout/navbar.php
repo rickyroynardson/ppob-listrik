@@ -16,6 +16,12 @@ checkDirBlock();
                 <li class="navbar-item">
                     <a href="../admin/index.php" class="nav-link">Admin</a>
                 </li>
+                <div class="navbar-item">
+                    <a href="../level/index.php" class="nav-link">Level</a>
+                </div>
+                <div class="navbar-item">
+                    <a href="../pelanggan/index.php" class="nav-link">Pelanggan</a>
+                </div>
             </ul>
             <a href="../logout.php" class="btn btn-sm btn-danger ms-auto"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
         </div>

@@ -20,4 +20,19 @@ class Model extends Connection
         $query = "INSERT INTO $table (" . implode(", ", $fields) . ") VALUES (" . implode(", ", $values) . ")";
         $this->connect()->query($query);
     }
+
+    public function update($table, $data, $where, $id)
+    {
+        foreach ($data as $key => $value) {
+            $modify[] = "$key = '$value'";
+        }
+        $query = "UPDATE $table SET " . implode(", ", $modify) . " WHERE $where = $id";
+        $this->connect()->query($query);
+    }
+
+    public function delete($table, $where, $id)
+    {
+        $query = "DELETE FROM $table WHERE $where = $id";
+        $this->connect()->query($query);
+    }
 }
