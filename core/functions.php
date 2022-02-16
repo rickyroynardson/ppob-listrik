@@ -123,6 +123,18 @@ function queryAdd($table)
             }
             break;
 
+        case 'tarif':
+            $daya = strip_tags($_POST['daya']);
+            $tarifperkwh = strip_tags($_POST['tarifperkwh']);
+
+            $data = [
+                'daya' => $daya,
+                'tarifperkwh' => $tarifperkwh
+            ];
+            $model->create($table, $data);
+            alertRedirect('Data berhasil ditambahkan ke dalam database!', './add.php');
+            break;
+
         default:
             alertRedirect('Error, terdapat kesalahan pada server!', './add.php');
             break;
@@ -184,6 +196,61 @@ function queryUpdate($table)
             }
             break;
 
+        case 'pelanggan':
+            $where = 'id_pelanggan';
+            $nama = strip_tags($_POST['nama']);
+            $alamat = strip_tags($_POST['alamat']);
+            $username = strip_tags($_POST['username']);
+            $old_username = strip_tags($_POST['old_username']);
+            $nomor_kwh = strip_tags($_POST['nomor_kwh']);
+            $id_tarif = strip_tags($_POST['id_tarif']);
+
+            if ($username === $old_username) {
+                $data = [
+                    'nama_pelanggan' => $nama,
+                    'alamat' => $alamat,
+                    'username' => $username,
+                    'nomor_kwh' => $nomor_kwh,
+                    'id_tarif' => $id_tarif
+                ];
+                $model->update($table, $data, $where, $id);
+                alertRedirect('Data berhasil diubah dari database!', './index.php');
+            } else {
+                $check = $db->query("SELECT * FROM pelanggan WHERE username = '$username'");
+                if ($check->num_rows > 0) {
+                    alertRedirect('Username terlah terdaftar, harap gunakan username lain!', './edit.php?id=' . $id);
+                } else {
+                    $data = [
+                        'nama_pelanggan' => $nama,
+                        'alamat' => $alamat,
+                        'username' => $username,
+                        'nomor_kwh' => $nomor_kwh,
+                        'id_tarif' => $id_tarif
+                    ];
+                    $model->update($table, $data, $where, $id);
+                    alertRedirect('Data berhasil diubah dari database!', './index.php');
+                }
+            }
+            break;
+
+        case 'pelanggan_password':
+            $table = 'pelanggan';
+            $where = 'id_pelanggan';
+            $password = strip_tags($_POST['password']);
+            $confirm_password = strip_tags($_POST['confirm_password']);
+            $hash_password = password_hash($password, PASSWORD_DEFAULT);
+
+            if ($password === $confirm_password) {
+                $data = [
+                    'password' => $hash_password
+                ];
+                $model->update($table, $data, $where, $id);
+                alertRedirect('Data berhasil diubah dari database!', './index.php');
+            } else {
+                alertRedirect('Konfirmasi password tidak sesuai, harap cek kembali!', './edit.php?id=' . $id);
+            }
+            break;
+
         default:
             alertRedirect('Error, terdapat kesalahan pada server!', './edit.php?id=' . $id);
             break;
@@ -198,6 +265,12 @@ function queryDelete($table)
     switch ($table) {
         case 'admin':
             $where = 'id_admin';
+            $model->delete($table, $where, $id);
+            alertRedirect('Data berhasil dihapus dari database!', './index.php');
+            break;
+
+        case 'pelanggan':
+            $where = 'id_pelanggan';
             $model->delete($table, $where, $id);
             alertRedirect('Data berhasil dihapus dari database!', './index.php');
             break;
