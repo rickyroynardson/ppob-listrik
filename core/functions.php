@@ -135,6 +135,24 @@ function queryAdd($table)
             alertRedirect('Data berhasil ditambahkan ke dalam database!', './add.php');
             break;
 
+        case 'penggunaan':
+            $id_pelanggan = strip_tags($_POST['id_pelanggan']);
+            $bulan = strip_tags($_POST['bulan']);
+            $tahun = strip_tags($_POST['tahun']);
+            $meter_awal = strip_tags($_POST['meter_awal']);
+            $meter_akhir = strip_tags($_POST['meter_akhir']);
+
+            $data = [
+                'id_pelanggan' => $id_pelanggan,
+                'bulan' => $bulan,
+                'tahun' => $tahun,
+                'meter_awal' => $meter_awal,
+                'meter_akhir' => $meter_akhir
+            ];
+            $model->create($table, $data);
+            alertRedirect('Data berhasil ditambahkan ke dalam database!', './add.php');
+            break;
+
         default:
             alertRedirect('Error, terdapat kesalahan pada server!', './add.php');
             break;
@@ -251,6 +269,19 @@ function queryUpdate($table)
             }
             break;
 
+        case 'tarif':
+            $where = 'id_tarif';
+            $daya = strip_tags($_POST['daya']);
+            $tarifperkwh = strip_tags($_POST['tarifperkwh']);
+
+            $data = [
+                'daya' => $daya,
+                'tarifperkwh' => $tarifperkwh
+            ];
+            $model->update($table, $data, $where, $id);
+            alertRedirect('Data berhasil diubah dari database!', './index.php');
+            break;
+
         default:
             alertRedirect('Error, terdapat kesalahan pada server!', './edit.php?id=' . $id);
             break;
@@ -271,6 +302,12 @@ function queryDelete($table)
 
         case 'pelanggan':
             $where = 'id_pelanggan';
+            $model->delete($table, $where, $id);
+            alertRedirect('Data berhasil dihapus dari database!', './index.php');
+            break;
+
+        case 'tarif':
+            $where = 'id_tarif';
             $model->delete($table, $where, $id);
             alertRedirect('Data berhasil dihapus dari database!', './index.php');
             break;
