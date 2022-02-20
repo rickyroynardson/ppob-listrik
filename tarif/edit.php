@@ -55,7 +55,7 @@ if (isset($_POST['simpan'])) {
                 </div>
             <?php endforeach; ?>
         <?php } else { ?>
-            <h6>Tidak ada data ditemukan.</h6>
+            <h6 class="mt-3">Tidak ada data ditemukan.</h6>
         <?php } ?>
     </div>
 

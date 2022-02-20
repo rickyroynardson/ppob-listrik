@@ -3,7 +3,7 @@ require_once '../core/init.php';
 require_once '../core/functions.php';
 checkLog();
 
-$penggunaan = $model->get("SELECT * FROM penggunaan INNER JOIN pelanggan ON penggunaan.id_pelanggan = pelanggan.id_pelanggan");
+$tagihan = $model->get("SELECT * FROM tagihan INNER JOIN penggunaan ON tagihan.id_penggunaan = penggunaan.id_penggunaan INNER JOIN pelanggan ON tagihan.id_pelanggan = pelanggan.id_pelanggan");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -12,7 +12,7 @@ $penggunaan = $model->get("SELECT * FROM penggunaan INNER JOIN pelanggan ON peng
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PPOB Listrik | Penggunaan</title>
+    <title>PPOB Listrik | Tagihan</title>
     <!-- icon -->
     <link rel="icon" href="../public/images/logo.png">
     <!-- css -->
@@ -27,34 +27,34 @@ $penggunaan = $model->get("SELECT * FROM penggunaan INNER JOIN pelanggan ON peng
     ?>
 
     <div class="container">
-        <h2>Penggunaan</h2>
-        <p class="text-muted">Daftar data penggunaan</p>
+        <h2>Tagihan</h2>
+        <p class="text-muted">Daftar data tagihan</p>
         <a href="./add.php" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Tambah Data</a>
         <div class="table-responsive mt-3">
             <table class="table table-bordered">
                 <thead>
                     <tr>
+                        <th>Penggunaan</th>
                         <th>Pelanggan</th>
                         <th>Bulan</th>
                         <th>Tahun</th>
-                        <th>Meter Awal</th>
-                        <th>Meter Akhir</th>
+                        <th>Jumlah Meter</th>
+                        <th>Status</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($penggunaan as $penggunaan) : ?>
+                    <?php foreach ($tagihan as $tagihan) : ?>
                         <tr>
-                            <td><?= $penggunaan->nama_pelanggan; ?></td>
-                            <td><?= $penggunaan->bulan; ?></td>
-                            <td><?= $penggunaan->tahun; ?></td>
-                            <td><?= $penggunaan->meter_awal; ?></td>
-                            <td><?= $penggunaan->meter_akhir; ?></td>
+                            <td></td>
+                            <td><?= $tagihan->nama_pelanggan; ?></td>
+                            <td><?= $tagihan->bulan; ?></td>
+                            <td><?= $tagihan->tahun; ?></td>
+                            <td><?= ($tagihan->meter_akhir - $tagihan->meter_awal); ?></td>
+                            <td><?= $tagihan->status; ?></td>
                             <td>
-                                <?php if (!$penggunaan->is_tagihan) { ?>
-                                    <a href="./edit.php?id=<?= $penggunaan->id_penggunaan; ?>" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a>
-                                <?php } ?>
-                                <a href="./delete.php?id=<?= $penggunaan->id_penggunaan; ?>" onclick="return confirm('Yakin untuk hapus data ini?')" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                <a href="./edit.php?id=<?= $tagihan->id_tagihan; ?>" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a>
+                                <a href="./delete.php?id=<?= $tagihan->id_tagihan; ?>" onclick="return confirm('Yakin untuk hapus data ini?')" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -28,6 +28,9 @@ checkDirBlock();
                 <div class="navbar-item">
                     <a href="../penggunaan/index.php" class="nav-link">Penggunaan</a>
                 </div>
+                <div class="navbar-item">
+                    <a href="../tagihan/index.php" class="nav-link">Tagihan</a>
+                </div>
             </ul>
             <a href="../logout.php" class="btn btn-sm btn-danger ms-auto"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
         </div>

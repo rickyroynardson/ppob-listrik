@@ -282,6 +282,25 @@ function queryUpdate($table)
             alertRedirect('Data berhasil diubah dari database!', './index.php');
             break;
 
+        case 'penggunaan':
+            $where = 'id_penggunaan';
+            $id_pelanggan = strip_tags($_POST['id_pelanggan']);
+            $bulan = strip_tags($_POST['bulan']);
+            $tahun = strip_tags($_POST['tahun']);
+            $meter_awal = strip_tags($_POST['meter_awal']);
+            $meter_akhir = strip_tags($_POST['meter_akhir']);
+
+            $data = [
+                'id_pelanggan' => $id_pelanggan,
+                'bulan' => $bulan,
+                'tahun' => $tahun,
+                'meter_awal' => $meter_awal,
+                'meter_akhir' => $meter_akhir
+            ];
+            $model->update($table, $data, $where, $id);
+            alertRedirect('Data berhasil diubah dari database!', './index.php');
+            break;
+
         default:
             alertRedirect('Error, terdapat kesalahan pada server!', './edit.php?id=' . $id);
             break;
@@ -308,6 +327,12 @@ function queryDelete($table)
 
         case 'tarif':
             $where = 'id_tarif';
+            $model->delete($table, $where, $id);
+            alertRedirect('Data berhasil dihapus dari database!', './index.php');
+            break;
+
+        case 'penggunaan':
+            $where = 'id_penggunaan';
             $model->delete($table, $where, $id);
             alertRedirect('Data berhasil dihapus dari database!', './index.php');
             break;
