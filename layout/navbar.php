@@ -31,6 +31,9 @@ checkDirBlock();
                 <div class="navbar-item">
                     <a href="../tagihan/index.php" class="nav-link">Tagihan</a>
                 </div>
+                <div class="navbar-item">
+                    <a href="../pembayaran/index.php" class="nav-link">Pembayaran</a>
+                </div>
             </ul>
             <a href="../logout.php" class="btn btn-sm btn-danger ms-auto"><i class="fas fa-arrow-right-from-bracket"></i> Logout</a>
         </div>

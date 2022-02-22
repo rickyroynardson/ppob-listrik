@@ -34,7 +34,6 @@ $tagihan = $model->get("SELECT * FROM tagihan INNER JOIN penggunaan ON tagihan.i
             <table class="table table-bordered">
                 <thead>
                     <tr>
-                        <th>Penggunaan</th>
                         <th>Pelanggan</th>
                         <th>Bulan</th>
                         <th>Tahun</th>
@@ -46,7 +45,6 @@ $tagihan = $model->get("SELECT * FROM tagihan INNER JOIN penggunaan ON tagihan.i
                 <tbody>
                     <?php foreach ($tagihan as $tagihan) : ?>
                         <tr>
-                            <td></td>
                             <td><?= $tagihan->nama_pelanggan; ?></td>
                             <td><?= $tagihan->bulan; ?></td>
                             <td><?= $tagihan->tahun; ?></td>

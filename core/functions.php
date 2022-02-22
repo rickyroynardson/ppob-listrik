@@ -153,6 +153,29 @@ function queryAdd($table)
             alertRedirect('Data berhasil ditambahkan ke dalam database!', './add.php');
             break;
 
+        case 'tagihan':
+            $id_penggunaan = strip_tags($_POST['id_penggunaan']);
+            $status = strip_tags($_POST['status']);
+            $check = $db->query("SELECT * FROM penggunaan INNER JOIN pelanggan ON penggunaan.id_pelanggan = pelanggan.id_pelanggan WHERE id_penggunaan = '$id_penggunaan'");
+            while ($row = $check->fetch_object()) {
+                $id_pelanggan = $row->id_pelanggan;
+                $bulan = $row->bulan;
+                $tahun = $row->tahun;
+                $jumlah_meter = $row->meter_akhir - $row->meter_awal;
+            }
+
+            $data = [
+                'id_penggunaan' => $id_penggunaan,
+                'id_pelanggan' => $id_pelanggan,
+                'bulan' => $bulan,
+                'tahun' => $tahun,
+                'jumlah_meter' => $jumlah_meter,
+                'status' => $status
+            ];
+            $model->create($table, $data);
+            alertRedirect('Data berhasil ditambahkan ke dalam database!', './add.php');
+            break;
+
         default:
             alertRedirect('Error, terdapat kesalahan pada server!', './add.php');
             break;
@@ -301,6 +324,29 @@ function queryUpdate($table)
             alertRedirect('Data berhasil diubah dari database!', './index.php');
             break;
 
+        case 'tagihan':
+            $where = 'id_tagihan';
+            $id_penggunaan = strip_tags($_POST['id_penggunaan']);
+            $status = strip_tags($_POST['status']);
+            $check = $db->query("SELECT * FROM penggunaan WHERE id_penggunaan = '$id_penggunaan'");
+            while ($row = $check->fetch_object()) {
+                $id_pelanggan = $row->id_pelanggan;
+                $bulan = $row->bulan;
+                $tahun = $row->tahun;
+                $jumlah_meter = $row->meter_akhir - $row->meter_awal;
+            }
+            $data = [
+                'id_penggunaan' => $id_penggunaan,
+                'id_pelanggan' => $id_pelanggan,
+                'bulan' => $bulan,
+                'tahun' => $tahun,
+                'jumlah_meter' => $jumlah_meter,
+                'status' => $status
+            ];
+            $model->update($table, $data, $where, $id);
+            alertRedirect('Data berhasil diubah dari database!', './index.php');
+            break;
+
         default:
             alertRedirect('Error, terdapat kesalahan pada server!', './edit.php?id=' . $id);
             break;
@@ -333,6 +379,12 @@ function queryDelete($table)
 
         case 'penggunaan':
             $where = 'id_penggunaan';
+            $model->delete($table, $where, $id);
+            alertRedirect('Data berhasil dihapus dari database!', './index.php');
+            break;
+
+        case 'tagihan':
+            $where = 'id_tagihan';
             $model->delete($table, $where, $id);
             alertRedirect('Data berhasil dihapus dari database!', './index.php');
             break;
