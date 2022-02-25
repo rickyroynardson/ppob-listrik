@@ -18,6 +18,7 @@ $tarif = $model->get("SELECT * FROM tarif");
     <!-- css -->
     <link rel="stylesheet" href="../public/css/bootstrap.min.css">
     <link rel="stylesheet" href="../public/css/all.min.css">
+    <link rel="stylesheet" href="../public/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body>
@@ -31,7 +32,7 @@ $tarif = $model->get("SELECT * FROM tarif");
         <p class="text-muted">Daftar data tarif</p>
         <a href="./add.php" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Tambah Data</a>
         <div class="table-responsive mt-3">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="data-table">
                 <thead>
                     <tr>
                         <th>Daya</th>
@@ -56,8 +57,16 @@ $tarif = $model->get("SELECT * FROM tarif");
     </div>
 
     <!-- js -->
+    <script src="../public/js/jquery.min.js"></script>
     <script src="../public/js/bootstrap.bundle.min.js"></script>
     <script src="../public/js/all.min.js"></script>
+    <script type="text/javascript" src="../public/js/jquery.dataTables.min.js"></script>
+    <script src="../public/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#data-table').DataTable();
+        })
+    </script>
 </body>
 
 </html>

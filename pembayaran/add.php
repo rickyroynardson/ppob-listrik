@@ -2,6 +2,13 @@
 require_once '../core/init.php';
 require_once '../core/functions.php';
 checkLog();
+
+$tagihan = $model->get("SELECT * FROM tagihan INNER JOIN penggunaan ON tagihan.id_penggunaan = penggunaan.id_penggunaan INNER JOIN pelanggan ON tagihan.id_pelanggan = pelanggan.id_pelanggan WHERE status = 'belum_lunas'");
+$admin = $model->get("SELECT * FROM admin INNER JOIN level ON admin.id_level = level.id_level");
+
+if (isset($_POST['simpan'])) {
+    queryAdd('pembayaran');
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -35,7 +42,14 @@ checkLog();
                         <label for="id_tagihan">Tagihan</label>
                         <select name="id_tagihan" id="id_tagihan" class="form-select" required>
                             <option value="">Pilih tagihan</option>
+                            <?php foreach ($tagihan as $tagihan) : ?>
+                                <option value="<?= $tagihan->id_tagihan; ?>"><?= $tagihan->nama_pelanggan; ?> - <?= $tagihan->bulan; ?> <?= $tagihan->tahun; ?> - <?= $tagihan->jumlah_meter; ?></option>
+                            <?php endforeach; ?>
                         </select>
+                    </div>
+                    <div class="mb-2">
+                        <label for="bulan_bayar">Bulan Bayar</label>
+                        <input type="number" class="form-control" name="bulan_bayar" id="bulan_bayar" required>
                     </div>
                     <div class="mb-2">
                         <label for="biaya_admin">Biaya Admin</label>
@@ -45,6 +59,9 @@ checkLog();
                         <label for="id_admin">Admin</label>
                         <select name="id_admin" id="id_admin" class="form-select" required>
                             <option value="">Pilih admin</option>
+                            <?php foreach ($admin as $admin) : ?>
+                                <option value="<?= $admin->id_admin; ?>"><?= $admin->nama_admin; ?></option>
+                            <?php endforeach; ?>
                         </select>
                     </div>
                     <button type="submit" class="btn btn-sm btn-success float-end" name="simpan"><i class="fas fa-paper-plane"></i> Simpan</button>

@@ -176,6 +176,29 @@ function queryAdd($table)
             alertRedirect('Data berhasil ditambahkan ke dalam database!', './add.php');
             break;
 
+        case 'pembayaran':
+            $id_tagihan = strip_tags($_POST['id_tagihan']);
+            $bulan_bayar = strip_tags($_POST['bulan_bayar']);
+            $biaya_admin = strip_tags($_POST['biaya_admin']);
+            $id_admin = strip_tags($_POST['id_admin']);
+            $check = $db->query("SELECT * FROM tagihan INNER JOIN penggunaan ON tagihan.id_penggunaan = penggunaan.id_penggunaan INNER JOIN pelanggan ON tagihan.id_pelanggan = pelanggan.id_pelanggan INNER JOIN tarif ON pelanggan.id_tarif = tarif.id_tarif WHERE id_tagihan = '$id_tagihan'");
+            while ($row = $check->fetch_object()) {
+                $id_pelanggan = $row->id_pelanggan;
+                $total_bayar = ($row->jumlah_meter * $row->tarifperkwh) + $biaya_admin;
+            }
+
+            $data = [
+                'id_tagihan' => $id_tagihan,
+                'id_pelanggan' => $id_pelanggan,
+                'bulan_bayar' => $bulan_bayar,
+                'biaya_admin' => $biaya_admin,
+                'total_bayar' => $total_bayar,
+                'id_admin' => $id_admin
+            ];
+            $model->create($table, $data);
+            alertRedirect('Data berhasil ditambahkan ke dalam database!', './add.php');
+            break;
+
         default:
             alertRedirect('Error, terdapat kesalahan pada server!', './add.php');
             break;
@@ -347,6 +370,33 @@ function queryUpdate($table)
             alertRedirect('Data berhasil diubah dari database!', './index.php');
             break;
 
+        case 'pembayaran_status':
+            $table = 'pembayaran';
+            $where = 'id_pembayaran';
+            $id = $_POST['id'];
+            $data = [
+                'tanggal_pembayaran' => date('Y-m-d'),
+                'status_bayar' => 'Verifikasi'
+            ];
+            $model->update($table, $data, $where, $id);
+            alertRedirect('Pembayaran berhasil, silahkan tunggu verifikasi admin!', './index.php');
+            break;
+
+        case 'pembayaran_verifikasi':
+            $table = 'pembayaran';
+            $where = 'id_pembayaran';
+            $id = $_POST['id'];
+            $id_tagihan = $db->query("SELECT id_tagihan FROM pembayaran WHERE id_pembayaran = '$id'");
+            while ($row = $id_tagihan->fetch_object()) {
+                $db->query("UPDATE tagihan SET status = 'Lunas' WHERE id_tagihan = '$row->id_tagihan'");
+            }
+            $data = [
+                'status_bayar' => 'Lunas'
+            ];
+            $model->update($table, $data, $where, $id);
+            alertRedirect('Pembayaran berhasil di verifikasi!', './index.php');
+            break;
+
         default:
             alertRedirect('Error, terdapat kesalahan pada server!', './edit.php?id=' . $id);
             break;
@@ -385,6 +435,12 @@ function queryDelete($table)
 
         case 'tagihan':
             $where = 'id_tagihan';
+            $model->delete($table, $where, $id);
+            alertRedirect('Data berhasil dihapus dari database!', './index.php');
+            break;
+
+        case 'pembayaran':
+            $where = 'id_pembayaran';
             $model->delete($table, $where, $id);
             alertRedirect('Data berhasil dihapus dari database!', './index.php');
             break;

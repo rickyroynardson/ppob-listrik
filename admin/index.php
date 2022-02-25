@@ -18,6 +18,7 @@ $admin = $model->get("SELECT * FROM admin INNER JOIN level ON admin.id_level = l
     <!-- css -->
     <link rel="stylesheet" href="../public/css/bootstrap.min.css">
     <link rel="stylesheet" href="../public/css/all.min.css">
+    <link rel="stylesheet" href="../public/css/dataTables.bootstrap5.min.css">
 </head>
 
 <body>
@@ -31,7 +32,7 @@ $admin = $model->get("SELECT * FROM admin INNER JOIN level ON admin.id_level = l
         <p class="text-muted">Daftar data admin</p>
         <a href="./add.php" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Tambah Data</a>
         <div class="table-responsive mt-3">
-            <table class="table table-bordered">
+            <table class="table table-bordered" id="data-table">
                 <thead>
                     <tr>
                         <th>Nama</th>
@@ -58,8 +59,16 @@ $admin = $model->get("SELECT * FROM admin INNER JOIN level ON admin.id_level = l
     </div>
 
     <!-- js -->
+    <script src="../public/js/jquery.min.js"></script>
     <script src="../public/js/bootstrap.bundle.min.js"></script>
     <script src="../public/js/all.min.js"></script>
+    <script type="text/javascript" src="../public/js/jquery.dataTables.min.js"></script>
+    <script src="../public/js/dataTables.bootstrap5.min.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#data-table').DataTable();
+        })
+    </script>
 </body>
 
 </html>
