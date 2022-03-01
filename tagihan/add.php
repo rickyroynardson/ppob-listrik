@@ -3,7 +3,7 @@ require_once '../core/init.php';
 require_once '../core/functions.php';
 checkLog();
 
-$penggunaan = $model->get("SELECT * FROM penggunaan INNER JOIN pelanggan ON penggunaan.id_pelanggan = pelanggan.id_pelanggan");
+$penggunaan = $model->get("SELECT * FROM penggunaan INNER JOIN pelanggan ON penggunaan.id_pelanggan = pelanggan.id_pelanggan WHERE is_tagihan = '0'");
 
 if (isset($_POST['simpan'])) {
     queryAdd('tagihan');
