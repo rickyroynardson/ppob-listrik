@@ -30,7 +30,9 @@ $tagihan = $model->get("SELECT * FROM tagihan INNER JOIN penggunaan ON tagihan.i
     <div class="container">
         <h2>Tagihan</h2>
         <p class="text-muted">Daftar data tagihan</p>
-        <a href="./add.php" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Tambah Data</a>
+        <?php if (checkRole(['Admin'])) { ?>
+            <a href="./add.php" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Tambah Data</a>
+        <?php } ?>
         <div class="table-responsive mt-3">
             <table class="table table-bordered" id="data-table">
                 <thead>
@@ -58,8 +60,10 @@ $tagihan = $model->get("SELECT * FROM tagihan INNER JOIN penggunaan ON tagihan.i
                                 <?php } ?>
                             </td>
                             <td>
-                                <a href="./edit.php?id=<?= $tagihan->id_tagihan; ?>" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a>
-                                <a href="./delete.php?id=<?= $tagihan->id_tagihan; ?>" onclick="return confirm('Yakin untuk hapus data ini?')" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                <?php if (checkRole(['Admin'])) { ?>
+                                    <a href="./edit.php?id=<?= $tagihan->id_tagihan; ?>" class="btn btn-sm btn-primary"><i class="fas fa-pen"></i></a>
+                                    <a href="./delete.php?id=<?= $tagihan->id_tagihan; ?>" onclick="return confirm('Yakin untuk hapus data ini?')" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                <?php } ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

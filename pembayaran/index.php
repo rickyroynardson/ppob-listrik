@@ -37,7 +37,9 @@ if (isset($_POST['verifikasi'])) {
     <div class="container">
         <h2>Pembayaran</h2>
         <p class="text-muted">Daftar data pembayaran</p>
-        <a href="./add.php" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Tambah Data</a>
+        <?php if (checkRole(['Admin'])) { ?>
+            <a href="./add.php" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Tambah Data</a>
+        <?php } ?>
         <div class="table-responsive mt-3">
             <table class="table table-bordered" id="data-table">
                 <thead>
@@ -77,19 +79,25 @@ if (isset($_POST['verifikasi'])) {
                                 <?php } ?>
                             </td>
                             <td>
-                                <?php if ($pembayaran->status_bayar != 'Lunas' && $pembayaran->status_bayar != 'Verifikasi') { ?>
-                                    <form action="" method="POST">
-                                        <input type="hidden" name="id" value="<?= $pembayaran->id_pembayaran; ?>">
-                                        <button type="submit" name="bayar" class="btn btn-sm btn-success"><i class="fas fa-dollar"></i></button>
-                                    </form>
+                                <?php if (checkRole(['Pelanggan'])) { ?>
+                                    <?php if ($pembayaran->status_bayar != 'Lunas' && $pembayaran->status_bayar != 'Verifikasi') { ?>
+                                        <form action="" method="POST">
+                                            <input type="hidden" name="id" value="<?= $pembayaran->id_pembayaran; ?>">
+                                            <button type="submit" name="bayar" class="btn btn-sm btn-success"><i class="fas fa-dollar"></i></button>
+                                        </form>
+                                    <?php } ?>
                                 <?php } ?>
-                                <?php if ($pembayaran->status_bayar != 'Lunas') { ?>
-                                    <form action="" method="POST">
-                                        <input type="hidden" name="id" value="<?= $pembayaran->id_pembayaran; ?>">
-                                        <button type="submit" name="verifikasi" class="btn btn-sm btn-success"><i class="fas fa-check"></i></button>
-                                    </form>
+                                <?php if (checkRole(['Admin', 'Bank'])) { ?>
+                                    <?php if ($pembayaran->status_bayar != 'Lunas') { ?>
+                                        <form action="" method="POST">
+                                            <input type="hidden" name="id" value="<?= $pembayaran->id_pembayaran; ?>">
+                                            <button type="submit" name="verifikasi" class="btn btn-sm btn-success"><i class="fas fa-check"></i></button>
+                                        </form>
+                                    <?php } ?>
                                 <?php } ?>
-                                <a href="./delete.php?id=<?= $pembayaran->id_pembayaran; ?>" onclick="return confirm('Yakin untuk hapus data ini?')" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                <?php if (checkRole(['Admin'])) { ?>
+                                    <a href="./delete.php?id=<?= $pembayaran->id_pembayaran; ?>" onclick="return confirm('Yakin untuk hapus data ini?')" class="btn btn-sm btn-danger"><i class="fas fa-trash"></i></a>
+                                <?php } ?>
                             </td>
                         </tr>
                     <?php endforeach; ?>

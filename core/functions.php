@@ -468,6 +468,16 @@ function checkLog()
     }
 }
 
+// check role return boolean
+function checkRole($role)
+{
+    if (in_array($_SESSION['role'], $role)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
 // check dir block
 function checkDirBlock()
 {
