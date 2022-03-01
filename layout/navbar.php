@@ -28,7 +28,7 @@ checkDirBlock();
                         <a href="../pembayaran/index.php" class="nav-link">Pembayaran</a>
                     </div>
                     <div class="navbar-item">
-                        <a href="" class="nav-link">Laporan</a>
+                        <a href="../laporan/index.php" class="nav-link">Laporan</a>
                     </div>
                 <?php } else { ?>
                     <li class="navbar-item">
